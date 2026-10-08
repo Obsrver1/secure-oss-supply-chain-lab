@@ -1,0 +1,34 @@
+name: CI Baseline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  repository-hygiene:
+    name: Repository Hygiene
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Check for prohibited tracked files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          prohibited='(^|/)(\.env($|\.)|.*\.tfstate($|\.)|.*\.pem$|.*\.p12$|.*\.pfx$)'
+
+          if git ls-files | grep -E "$prohibited"; then
+            echo "::error::Potentially sensitive file type is tracked."
+            exit 1
+          fi
+
+          echo "Repository hygiene check passed."
