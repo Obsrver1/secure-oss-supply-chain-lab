@@ -1,0 +1,17 @@
+# Normalize text files in the repository
+* text=auto
+
+# Keep source/config files consistent with Linux/GitHub tooling
+*.py      text eol=lf
+*.sh      text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.tf      text eol=lf
+*.tfvars  text eol=lf
+*.json    text eol=lf
+*.md      text eol=lf
+
+# Windows-specific scripts
+*.ps1     text eol=crlf
+*.bat     text eol=crlf
+*.cmd     text eol=crlf
