@@ -1,0 +1,9 @@
+title = "Secure OSS Supply Chain Lab"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "lab-synthetic-secret"
+description = "Detect synthetic lab secrets used for control validation"
+regex = '''LAB_SECRET_[A-Z0-9]{32}'''
