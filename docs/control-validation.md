@@ -97,7 +97,7 @@ A pull request containing the project's synthetic secret pattern causes the requ
 
 2. Added the synthetic test pattern:
 
-   `LAB_SECRET_0123456789ABCDEF0123456789ABCDEF`
+   `LAB_SECRET_<32 uppercase alphanumeric characters>`
 
 3. Committed the file on the controlled test branch.
 4. Opened a pull request targeting `main`.
