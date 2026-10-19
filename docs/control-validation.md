@@ -80,6 +80,53 @@ GitHub reported the pull request as:
 
 **Cleanup:**  
 The controlled test pull request was closed without merging and its test branch was deleted.
+---
+
+## CV-003 — Secret Content Detection
+
+**Control:** Pull requests must pass content-aware secret scanning before they can be merged into `main`.
+
+**Expected result:**  
+A pull request containing the project's synthetic secret pattern causes the required Secret Scan check to fail and cannot satisfy the protected-branch merge requirements.
+
+**Test procedure:**
+
+1. Created a normal text file:
+
+   `fixtures/secret-scan-negative-test.txt`
+
+2. Added the synthetic test pattern:
+
+   `LAB_SECRET_<32 uppercase alphanumeric characters>`
+
+3. Committed the file on the controlled test branch.
+4. Opened a pull request targeting `main`.
+
+The value was synthetic and was not a real credential for any provider or service.
+
+**Observed result:**
+
+Gitleaks detected the synthetic pattern using:
+
+`RuleID: lab-synthetic-secret`
+
+The pull request checks reported:
+
+- `Repository Hygiene` — SUCCESS
+- `Secret Scan` — FAILURE
+
+GitHub reported:
+
+- `mergeable = MERGEABLE`
+- `mergeStateStatus = BLOCKED`
+
+**Result:** `PASS`
+
+**Security conclusion:**  
+The content-aware scanning control detects prohibited secret-like content independently of the filename or file extension. Because Secret Scan is a required status check, detection prevents the pull request from satisfying the protected-branch merge requirements.
+
+**Cleanup:**  
+The controlled test pull request was closed without merging and its test branch was deleted.
 
 ---
 
@@ -89,3 +136,4 @@ The controlled test pull request was closed without merging and its test branch 
 | --- | --- | --- | --- |
 | CV-001 | Direct Push Protection | Direct push to `main` is rejected | PASS |
 | CV-002 | Repository Hygiene Enforcement | Prohibited tracked file causes required CI failure and blocks compliant merge | PASS |
+| CV-003 | Secret Content Detection | Synthetic secret content causes required secret scan failure and blocks compliant merge | PASS |
