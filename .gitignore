@@ -44,3 +44,6 @@ htmlcov/
 dist/
 build/
 tmp/
+
+# Node.js dependencies
+node_modules/
